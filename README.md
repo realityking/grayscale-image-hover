@@ -31,4 +31,4 @@ Class: GrayscaleImages
 
 ### Options:
 
-	- duration: (*int*) Duration of the transition from grayscal to color.
+- duration: (*int*) Duration of the transition from grayscal to color.
