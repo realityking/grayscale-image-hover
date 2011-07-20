@@ -10,7 +10,6 @@ How to use
 
 Basic example:
 
-	#JS
 	window.addEvent('domready', function() {
 		new GrayscaleImages('img');
 	});
@@ -23,7 +22,6 @@ Class: GrayscaleImages
 
 ### Syntax
 
-	#JS
 	new GrayscaleImages([element, options]);
 
 ### Arguments
