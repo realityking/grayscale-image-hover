@@ -4,7 +4,7 @@ name: Grayscale Image Hover
 version: 1.1
 description: Makes images gray, on hover they regain their color
 authors: Rouven Weßling
-requires: [Core/Fx.Tween, Core/Fx.Transitions, Core/Browser]
+requires: [Core/Fx.Tween, Core/Fx.Transitions, Core/Element.Event]
 provides: GrayscaleImage
 ...
 */
