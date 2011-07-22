@@ -32,3 +32,4 @@ Class: GrayscaleImages
 ### Options:
 
 - duration: (*int*) Duration of the transition from grayscal to color.
+- luminance: (*bool*) Turn off luminance correction by setting this to false.

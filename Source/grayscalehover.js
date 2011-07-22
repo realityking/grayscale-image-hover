@@ -1,7 +1,7 @@
 /*
 ---
 name: Grayscale Image Hover
-version: 1.0
+version: 1.1
 description: Makes images gray, on hover they regain their color
 authors: Rouven Weßling
 requires: [Core/Element, Core/Fx.Tween, Core/Fx.Transitions, Core/Element.Styles, Core/Events, Core/Browser]
@@ -19,7 +19,8 @@ var GrayscaleImages =  new Class({
 	Implements: Options,
 
 	options: {
-		duration: 1000
+		duration: 1000,
+		luminance: true
 	},
 
 	initialize: function(elems, options) {
@@ -74,7 +75,13 @@ var GrayscaleImages =  new Class({
             for (var x = 0; x < imgPixels.width; x++)
             {
                 var i = (y * 4) * imgPixels.width + x * 4;
-                var avg = ((imgPixels.data[i] * .3) + (imgPixels.data[i + 1] * .59) + (imgPixels.data[i + 2] * .11)) / 3;
+                if (this.options.luminance) {
+					// CIE luminance for the RGB
+					// The human eye is bad at seeing red and blue, so we de-emphasize them.
+					var avg = ((imgPixels.data[i] * .2126) + (imgPixels.data[i + 1] * .7152) + (imgPixels.data[i + 2] * .0722));
+                } else {
+					var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+                }
                 imgPixels.data[i] = avg; 
                 imgPixels.data[i + 1] = avg; 
                 imgPixels.data[i + 2] = avg;
