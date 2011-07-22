@@ -29,27 +29,35 @@ var GrayscaleImages =  new Class({
 		this.elements = (document.id(elems) || $$(elems));
 
 		this.elements.each(function(item) {
-			item.addEvent('load', function() {
-				var wrapper = new Element('div', {'class': 'img_wrapper', styles: {display: 'inline-block', "width": item.width, "height": item.height}}).wraps(item);
-				var clone = item.clone().addClass('img_grayscale').setStyle('position', 'absolute').inject(item, 'after');
-
-				clone.src = this.toGrayscale(clone.src);
-				item.setStyles({position: 'absolute', 'z-index': '998', opacity: '0'});
-				item.set('tween', {
-					duration: this.options.duration,
-					link: 'cancel'
-				});
-				clone.store('image', item);
-
-				clone.addEvent('mouseenter', function(){
-					this.retrieve('image').tween('opacity', '1');
-				});
-
-				item.addEvent('mouseleave', function(){
-					this.tween('opacity', '0');
-				});
-			}.bind(this));
+			if (item.complete) {
+				this.attach(item);
+			} else {
+				item.addEvent('load', function() {
+					this.attach(item);
+				}.bind(this));
+			}
 		}, this);
+	},
+
+	attach: function(item) {
+		var wrapper = new Element('div', {'class': 'img_wrapper', styles: {display: 'inline-block', "width": item.width, "height": item.height}}).wraps(item);
+		var clone = item.clone().addClass('img_grayscale').setStyle('position', 'absolute').inject(item, 'after');
+
+		clone.src = this.toGrayscale(clone.src);
+		item.setStyles({position: 'absolute', 'z-index': '998', opacity: '0'});
+		item.set('tween', {
+			duration: this.options.duration,
+			link: 'cancel'
+		});
+		clone.store('image', item);
+
+		clone.addEvent('mouseenter', function(){
+			this.retrieve('image').tween('opacity', '1');
+		});
+
+		item.addEvent('mouseleave', function(){
+			this.tween('opacity', '0');
+		});
 	},
 
 	toGrayscale: function(src) {
@@ -66,7 +74,7 @@ var GrayscaleImages =  new Class({
             for (var x = 0; x < imgPixels.width; x++)
             {
                 var i = (y * 4) * imgPixels.width + x * 4;
-                var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+                var avg = ((imgPixels.data[i] * .3) + (imgPixels.data[i + 1] * .59) + (imgPixels.data[i + 2] * .11)) / 3;
                 imgPixels.data[i] = avg; 
                 imgPixels.data[i + 1] = avg; 
                 imgPixels.data[i + 2] = avg;
