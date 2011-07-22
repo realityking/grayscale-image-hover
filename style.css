@@ -1,0 +1,80 @@
+figure, figcaption, header, footer {
+	display: block;
+}
+
+body {
+	margin: 40px 0;
+	color: gray;
+	background: white;
+	font-size: 12px;
+	font: Arial, Helvetica, sans-serif;
+}
+
+header {
+	margin: 0 40px 20px;
+	color: black;
+	border-bottom: solid 1px #CCC;
+	font-size: 1.5em;
+}
+
+a {
+	color: #646464;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+img {
+	border: 0
+}
+
+figure {
+	float: left;
+	margin: 0 0 40px 40px;
+}
+
+figure:first-child {
+	margin-left: 0;
+}
+
+figcaption > a {
+	font-size: 1.1em;
+}
+
+figcaption > a:after {
+	content: '\a' ;
+	white-space: pre; 
+}
+
+footer {
+	color: black;
+	text-align: center;
+	clear: both;
+	font-size: 1.1em;
+}
+
+.logo {
+	position: relative;
+	display: inline-block;
+	height: 20px;
+	width: 44px;
+}
+
+.logo > img {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.defaultlogo {
+	opacity: 1;
+	z-index: 20;
+	-webkit-transition: opacity .25s linear;
+	-moz-transition: opacity .25s linear;
+}
+
+.defaultlogo:hover {
+	opacity: 0;
+}
