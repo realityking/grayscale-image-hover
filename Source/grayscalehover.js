@@ -26,6 +26,11 @@ var GrayscaleImages =  new Class({
 	initialize: function(elems, options) {
 		if (!Browser.Features.canvas) return;
 
+		// Set up the canvas and context so we do't
+		// have to do it for every image
+		this.canvas = document.createElement('canvas');
+		this.ctx = this.canvas.getContext('2d');
+
 		this.setOptions(options);
 		this.elements = (document.id(elems) || $$(elems));
 
@@ -41,6 +46,7 @@ var GrayscaleImages =  new Class({
 	},
 
 	attach: function(item) {
+		console.profile();
 		var wrapper = new Element('div', {'class': 'img_wrapper', styles: {display: 'inline-block', "width": item.width, "height": item.height}}).wraps(item);
 		var clone = item.clone().addClass('img_grayscale').setStyle('position', 'absolute').inject(item, 'after');
 
@@ -59,35 +65,35 @@ var GrayscaleImages =  new Class({
 		item.addEvent('mouseleave', function(){
 			this.tween('opacity', '0');
 		});
+		console.profileEnd();
 	},
 
 	toGrayscale: function(src) {
-		var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
+		var avg, i;
         var imgObj = new Image();
         imgObj.src = src;
-        canvas.width = imgObj.width;
-        canvas.height = imgObj.height; 
-        ctx.drawImage(imgObj, 0, 0); 
-        var imgPixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        this.canvas.width = imgObj.width;
+        this.canvas.height = imgObj.height;
+        this.ctx.drawImage(imgObj, 0, 0);
+        var imgPixels = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
         for (var y = 0; y < imgPixels.height; y++)
         {
             for (var x = 0; x < imgPixels.width; x++)
             {
-                var i = (y * 4) * imgPixels.width + x * 4;
+                i = (y * 4) * imgPixels.width + x * 4;
                 if (this.options.luminance) {
 					// CIE luminance for the RGB
 					// The human eye is bad at seeing red and blue, so we de-emphasize them.
-					var avg = ((imgPixels.data[i] * .2126) + (imgPixels.data[i + 1] * .7152) + (imgPixels.data[i + 2] * .0722));
+					avg = ((imgPixels.data[i] * .2126) + (imgPixels.data[i + 1] * .7152) + (imgPixels.data[i + 2] * .0722));
                 } else {
-					var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+					avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
                 }
                 imgPixels.data[i] = avg; 
                 imgPixels.data[i + 1] = avg; 
                 imgPixels.data[i + 2] = avg;
             }
         }
-        ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
-        return canvas.toDataURL();
+        this.ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+        return this.canvas.toDataURL();
 	}
 });
