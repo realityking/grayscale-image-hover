@@ -70,30 +70,30 @@ var GrayscaleImages =  new Class({
 
 	toGrayscale: function(src) {
 		var avg, i;
-        var imgObj = new Image();
-        imgObj.src = src;
-        this.canvas.width = imgObj.width;
-        this.canvas.height = imgObj.height;
-        this.ctx.drawImage(imgObj, 0, 0);
-        var imgPixels = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-        for (var y = 0; y < imgPixels.height; y++)
-        {
-            for (var x = 0; x < imgPixels.width; x++)
-            {
-                i = (y * 4) * imgPixels.width + x * 4;
-                if (this.options.luminance) {
+		var imgObj = new Image();
+		imgObj.src = src;
+		this.canvas.width = imgObj.width;
+		this.canvas.height = imgObj.height;
+		this.ctx.drawImage(imgObj, 0, 0);
+		var imgPixels = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+		for (var y = 0; y < imgPixels.height; y++)
+		{
+			for (var x = 0; x < imgPixels.width; x++)
+			{
+				i = (y * 4) * imgPixels.width + x * 4;
+				if (this.options.luminance) {
 					// CIE luminance for the RGB
 					// The human eye is bad at seeing red and blue, so we de-emphasize them.
 					avg = ((imgPixels.data[i] * .2126) + (imgPixels.data[i + 1] * .7152) + (imgPixels.data[i + 2] * .0722));
-                } else {
+				} else {
 					avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
-                }
-                imgPixels.data[i] = avg; 
-                imgPixels.data[i + 1] = avg; 
-                imgPixels.data[i + 2] = avg;
-            }
-        }
-        this.ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
-        return this.canvas.toDataURL();
+				}
+				imgPixels.data[i] = avg;
+				imgPixels.data[i + 1] = avg;
+				imgPixels.data[i + 2] = avg;
+			}
+		}
+		this.ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+		return this.canvas.toDataURL();
 	}
 });
