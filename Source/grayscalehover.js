@@ -46,7 +46,6 @@ var GrayscaleImages =  new Class({
 	},
 
 	attach: function(item) {
-		console.profile();
 		var wrapper = new Element('div', {'class': 'img_wrapper', styles: {display: 'inline-block', "width": item.width, "height": item.height}}).wraps(item);
 		var clone = item.clone().addClass('img_grayscale').setStyle('position', 'absolute').inject(item, 'after');
 
@@ -65,7 +64,6 @@ var GrayscaleImages =  new Class({
 		item.addEvent('mouseleave', function(){
 			this.tween('opacity', '0');
 		});
-		console.profileEnd();
 	},
 
 	toGrayscale: function(src) {
