@@ -26,7 +26,7 @@ Class: GrayscaleImages
 
 ### Arguments
 
-1. element: (*element*, *string*, *array*) The element(s) to attach the datepicker to
+1. element: (*element*, *string*, *array*) The element(s) to attach the effect to
 2. options: (*object*, optional) The options object
 
 ### Options:
